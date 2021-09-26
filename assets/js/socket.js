@@ -1,8 +1,13 @@
 import {Socket} from "phoenix";
 
 const socket = new Socket("/socket", {});
+const authSocket = new Socket("/auth_socket", {
+  params: {token: window.authToken}
+});
 
 socket.connect();
+authSocket.onOpen(() => console.log('authSocket connected'));
+authSocket.connect();
 
 // We invoke socket.channel once per topic we want to connect to.
 const pingChannel = socket.channel("ping");
