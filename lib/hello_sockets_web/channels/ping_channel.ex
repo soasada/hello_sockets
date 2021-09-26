@@ -3,6 +3,7 @@ defmodule HelloSocketsWeb.PingChannel do
 
   intercept ["request_ping"]
 
+  # here we implement authorization
   def join(_topic, _payload, socket) do
     {:ok, socket}
   end

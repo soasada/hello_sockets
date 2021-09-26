@@ -3,6 +3,7 @@ defmodule HelloSocketsWeb.UserSocket do
 
   channel "ping", HelloSocketsWeb.PingChannel
 
+  # here we implement authentication
   @impl true
   def connect(_params, socket, _connect_info) do
     {:ok, socket}
