@@ -43,4 +43,10 @@ pingChannel.push("param_ping", {error: false, arr: [1, 2]})
     console.log("param_ping ok:", resp);
   });
 
+pingChannel.on("send_ping", (payload) => {
+  console.log("ping requested", payload);
+  pingChannel.push("ping")
+    .receive("ok", (resp) => console.log("ping:", resp.ping));
+});
+
 export default socket;
