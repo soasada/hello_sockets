@@ -2,6 +2,7 @@ defmodule HelloSocketsWeb.UserSocket do
   use Phoenix.Socket
 
   channel "ping", HelloSocketsWeb.PingChannel
+  channel "wild:*", HelloSocketsWeb.WildcardChannel
   channel "dupe", HelloSocketsWeb.DedupeChannel
 
   # here we implement authentication
