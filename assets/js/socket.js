@@ -11,6 +11,13 @@ authSocket.connect();
 
 // We invoke socket.channel once per topic we want to connect to.
 const pingChannel = socket.channel("ping");
+const recurringChannel = authSocket.channel("recurring");
+
+recurringChannel.on("new_token", (payload) => {
+  console.log("received new auth token", payload);
+});
+
+recurringChannel.join();
 
 pingChannel.join()
   .receive("ok", (resp) => {
