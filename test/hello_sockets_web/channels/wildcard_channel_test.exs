@@ -1,6 +1,5 @@
 defmodule HelloSocketsWeb.WildcardChannelTest do
   use HelloSocketsWeb.ChannelCase
-  import ExUnit.CaptureLog
   alias HelloSocketsWeb.UserSocket
 
   describe "join/3 success" do
@@ -29,12 +28,8 @@ defmodule HelloSocketsWeb.WildcardChannelTest do
 
   describe "join/3 error causing crash" do
     test "error with an invalid format topic" do
-      assert capture_log(
-               fn ->
-                 socket(UserSocket, nil, %{})
-                 |> subscribe_and_join("wild:invalid", %{})
-               end
-             ) =~ "[error] an exception was raised"
+      assert socket(UserSocket, nil, %{})
+             |> subscribe_and_join("wild:invalid", %{}) == {:error, %{}}
     end
   end
 end

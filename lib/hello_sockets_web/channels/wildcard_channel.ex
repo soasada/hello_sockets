@@ -15,12 +15,15 @@ defmodule HelloSocketsWeb.WildcardChannel do
   end
 
   defp valid_numbers?(numbers) do
-    numbers
-    |> String.split(":")
-    |> Enum.map(&String.to_integer/1)
-    |> case do
-         [a, b] when b == a * 2 -> true
-         _ -> false
-       end
+    try do
+      numbers
+      |> String.split(":")
+      |> Enum.map(&String.to_integer/1)
+      |> case do
+           [a, b] when b == a * 2 -> true
+           _ -> false
+         end
+    catch _type, _value -> false
+    end
   end
 end
