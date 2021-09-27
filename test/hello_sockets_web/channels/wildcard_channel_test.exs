@@ -32,4 +32,16 @@ defmodule HelloSocketsWeb.WildcardChannelTest do
              |> subscribe_and_join("wild:invalid", %{}) == {:error, %{}}
     end
   end
+
+  describe "handle_in ping" do
+    test "a pong response is provided" do
+      assert {:ok, _, socket} =
+               socket(UserSocket, nil, %{})
+               |> subscribe_and_join("wild:2:4", %{})
+
+      ref = push(socket, "ping", %{}) # this invoke handle_in on the Channel
+      expected_reply = %{ping: "pong"}
+      assert_reply ref, :ok, ^expected_reply
+    end
+  end
 end
