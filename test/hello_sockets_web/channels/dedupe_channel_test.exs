@@ -14,6 +14,19 @@ defmodule HelloSocketsWeb.DedupeChannelTest do
     refute_push _, _
   end
 
+  test "the buffer is drained 1 second after a number is first added" do
+    connect()
+    |> broadcast_number(1)
+    |> broadcast_number(1)
+    |> broadcast_number(2)
+
+    Process.sleep(1050)
+
+    assert_push "number", %{value: 1}
+    refute_push "number", %{value: 1}
+    assert_push "number", %{value: 2}
+  end
+
   defp broadcast_number(socket, number) do
     # broadcast_from! triggers handle_out from our channel
     assert broadcast_from!(socket, "number", %{number: number}) == :ok

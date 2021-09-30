@@ -24,7 +24,7 @@ defmodule HelloSocketsWeb.DedupeChannel do
     buffer
     |> Enum.reverse()
     |> Enum.uniq()
-    |> Enum.each(&push(socket, "number", %{value: &1}))
+    |> Enum.each(&push(socket, "number", %{value: &1})) # we push message to the client
 
     next_socket =
       socket
