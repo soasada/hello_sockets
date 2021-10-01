@@ -1,3 +1,5 @@
 ## Metrics recollection with logs vs statsd
 
-To be discussed.
+1. `statsd` with `statix`.
+2. `statsd` with `telemetry`.
+3. Logging.
