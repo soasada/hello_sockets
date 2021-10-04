@@ -1,6 +1,5 @@
 defmodule HelloSocketsWeb.StatsChannel do
   use Phoenix.Channel
-  require Logger
   alias HelloSockets.Statix
 
   # here we implement authorization
@@ -12,6 +11,16 @@ defmodule HelloSocketsWeb.StatsChannel do
   def join("invalid", _payload, _socket) do
     channel_join_increment("fail")
     {:error, %{reason: "always fail"}}
+  end
+
+  def handle_in("ping", _payload, socket) do
+    Statix.measure(
+      "stats_channel.ping",
+      fn ->
+        Process.sleep(:rand.uniform(1000))
+        {:reply, {:ok, %{ping: "pong"}}, socket}
+      end
+    )
   end
 
   defp channel_join_increment(status) do

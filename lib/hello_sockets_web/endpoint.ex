@@ -12,6 +12,7 @@ defmodule HelloSocketsWeb.Endpoint do
 
   socket "/socket", HelloSocketsWeb.UserSocket, websocket: true, longpoll: false
   socket "/auth_socket", HelloSocketsWeb.AuthSocket, websocket: true, longpoll: false
+  socket "/stats_socket", HelloSocketsWeb.StatsSocket, websocket: true, longpoll: false
 
   # socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
