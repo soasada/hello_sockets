@@ -28,6 +28,23 @@ defmodule HelloSocketsWeb.StatsChannel do
     {:reply, {:ok, %{ping: "pong"}}, socket}
   end
 
+  # Don't block the channel, instead dispatch the work to a GenServer or Task.
+  #
+  # GenServer => long running process
+  # Task => one time action process
+  def handle_in("parallel_slow_ping", _payload, socket) do
+    ref = socket_ref(socket)
+
+    Task.start_link(
+      fn ->
+        Process.sleep(3_000)
+        Phoenix.Channel.reply(ref, {:ok, %{ping: "pong"}})
+      end
+    )
+
+    {:noreply, socket}
+  end
+
   defp channel_join_increment(status) do
     Statix.increment("channel_join", 1, tags: ["status:#{status}", "channel:StatsChannel"])
   end
