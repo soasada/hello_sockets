@@ -77,7 +77,10 @@ statsChannelInvalid.join()
 statsChannelValid.join();
 
 for (let i = 0; i < 5; i++) {
-  statsChannelValid.push("ping");
+  statsChannelValid.push("slow_ping")
+    .receive("ok", () => console.log("Slow ping response received", i));
 }
+
+console.log("5 slow pings requested");
 
 export default socket;

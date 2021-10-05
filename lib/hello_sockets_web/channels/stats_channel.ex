@@ -23,6 +23,11 @@ defmodule HelloSocketsWeb.StatsChannel do
     )
   end
 
+  def handle_in("slow_ping", _payload, socket) do
+    Process.sleep(3_000)
+    {:reply, {:ok, %{ping: "pong"}}, socket}
+  end
+
   defp channel_join_increment(status) do
     Statix.increment("channel_join", 1, tags: ["status:#{status}", "channel:StatsChannel"])
   end
