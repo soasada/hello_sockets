@@ -30,6 +30,11 @@ defmodule HelloSocketsWeb.StatsChannel do
 
   # Don't block the channel, instead dispatch the work to a GenServer or Task.
   #
+  # Benefit of this pattern: increase parallelism if we have a slow database query or external API call.
+  # Trade-off: lose the ability to slow down a client (back-pressure).
+  #
+  # A possible solution to the trade-off is to implement a mechanism to support a maximum amount of concurrency per channel.
+  #
   # GenServer => long running process
   # Task => one time action process
   def handle_in("parallel_slow_ping", _payload, socket) do
