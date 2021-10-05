@@ -1,8 +1,8 @@
 ## Custom application metrics recollection
 
-1. `statsd` with `statix`.
+1. `statsd` with `statix` (Covered).
 2. `statsd` with `telemetry`.
-3. Logging.
+3. Logging (Covered).
 
 ## Usage application metrics recollection
 
