@@ -4,15 +4,19 @@ const socket = new Socket("/socket", {});
 const authSocket = new Socket("/auth_socket", {
   params: {token: window.authToken}
 });
+const statsSocket = new Socket("/stats_socket", {});
 
 socket.connect();
 authSocket.onOpen(() => console.log('authSocket connected'));
 authSocket.connect();
+statsSocket.connect();
 
 // We invoke socket.channel once per topic we want to connect to.
 const pingChannel = socket.channel("ping");
 const recurringChannel = authSocket.channel("recurring");
 const dupeChannel = socket.channel("dupe");
+const statsChannelInvalid = statsSocket.channel("invalid");
+const statsChannelValid = statsSocket.channel("valid");
 
 recurringChannel.on("new_token", (payload) => {
   console.log("received new auth token", payload);
@@ -66,5 +70,14 @@ pingChannel.on("send_ping", (payload) => {
   pingChannel.push("ping")
     .receive("ok", (resp) => console.log("ping:", resp.ping));
 });
+
+statsChannelInvalid.join()
+  .receive("error", () => statsChannelInvalid.leave());
+
+statsChannelValid.join();
+
+for (let i = 0; i < 5; i++) {
+  statsChannelValid.push("ping");
+}
 
 export default socket;
