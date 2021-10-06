@@ -13,4 +13,12 @@ defmodule HelloSockets.Pipeline.Producer do
   def handle_demand(_demand, state) do
     {:noreply, [], state}
   end
+
+  def push(item = %{}) do
+    GenStage.cast(__MODULE__, {:notify, item})
+  end
+
+  def handle_cast({:notify, item}, state) do
+    {:noreply, [%{item: item}], state}
+  end
 end
