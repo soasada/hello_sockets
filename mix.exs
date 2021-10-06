@@ -46,7 +46,8 @@ defmodule HelloSockets.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:statix, "~> 1.4"},
-      {:statsd_logger, "~> 1.1.1"}
+      {:statsd_logger, "~> 1.1.1"},
+      {:gen_stage, "~> 1.1.1"}
     ]
   end
 
