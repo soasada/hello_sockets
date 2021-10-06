@@ -4,11 +4,14 @@ defmodule HelloSockets.Application do
   @moduledoc false
 
   use Application
+  alias HelloSockets.Pipeline.{Producer, Consumer}
 
   @impl true
   def start(_type, _args) do
     :ok = HelloSockets.Statix.connect()
     children = [
+      {Producer, name: Producer},
+      {Consumer, subscribe_to: [{Producer, max_demand: 10, min_demand: 5}]},
       # Start the Telemetry supervisor
       HelloSocketsWeb.Telemetry,
       # Start the PubSub system
