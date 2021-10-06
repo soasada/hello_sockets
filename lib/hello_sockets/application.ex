@@ -4,7 +4,8 @@ defmodule HelloSockets.Application do
   @moduledoc false
 
   use Application
-  alias HelloSockets.Pipeline.{Producer, Consumer}
+  alias HelloSockets.Pipeline.Producer
+  alias HelloSockets.Pipeline.ConsumerSupervisor, as: Consumer
 
   @impl true
   def start(_type, _args) do
