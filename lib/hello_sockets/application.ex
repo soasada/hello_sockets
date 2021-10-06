@@ -12,6 +12,9 @@ defmodule HelloSockets.Application do
     :ok = HelloSockets.Statix.connect()
     children = [
       {Producer, name: Producer},
+      # With the consumer supervisor we are able to reach the max_demand because is able to create as many process in parallel
+      # as CPU cores you have in your machine, thus you should configure max_demand to the number of CPU cores.
+      # In summary, if we double the CPU cores we will double the execution parallelism of our pipeline.
       {Consumer, subscribe_to: [{Producer, max_demand: 10, min_demand: 5}]},
       # Start the Telemetry supervisor
       HelloSocketsWeb.Telemetry,
