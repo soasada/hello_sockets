@@ -20,6 +20,7 @@ const dupeChannel = socket.channel("dupe");
 const statsChannelInvalid = statsSocket.channel("invalid");
 const statsChannelValid = statsSocket.channel("valid");
 const parallelSlowStatsChannel = parallelSlowStatsSocket.channel("valid");
+const authUserChannel = authSocket.channel(`user:${window.userId}`);
 
 recurringChannel.on("new_token", (payload) => {
   console.log("received new auth token", payload);
@@ -92,5 +93,10 @@ for (let i = 0; i < 5; i++) {
   parallelSlowStatsChannel.push("parallel_slow_ping")
     .receive("ok", () => console.log("Parallel slow ping response received", i));
 }
+
+authUserChannel.on("push", (payload) => {
+  console.log("received auth user push", payload);
+});
+authUserChannel.join();
 
 export default socket;
