@@ -1,6 +1,9 @@
 defmodule HelloSocketsWeb.AuthChannel do
   use Phoenix.Channel
   require Logger
+  alias HelloSockets.Pipeline.Timing
+
+  intercept ["push_timed"]
 
   # here we implement authorization
   def join("user:" <> req_user_id, _payload, socket) do
@@ -14,5 +17,11 @@ defmodule HelloSocketsWeb.AuthChannel do
 
   def handle_in("ping", _payload, socket) do
     {:reply, {:ok, %{ping: "pong"}}, socket}
+  end
+
+  def handle_out("push_timed", %{data: data, at: enqueued_at}, socket) do
+    push(socket, "push_timed", data)
+    HelloSockets.Statix.histogram("pipeline.push_delivered", Timing.unix_ms_now() - enqueued_at)
+    {:noreply, socket}
   end
 end
