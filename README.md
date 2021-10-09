@@ -9,3 +9,7 @@
 CPU usage, Memory usage, etc...
 
 1. `LiveView Dashboard`
+
+## Update phoenix
+
+`mix local.phx`
