@@ -23,7 +23,6 @@ defmodule HelloSockets.Pipeline.Worker do
            enqueued_at: unix_ms
          }
        ) do
-    Process.sleep(1000)
     HelloSocketsWeb.Endpoint.broadcast!(
       "user:#{user_id}",
       "push_timed",
