@@ -23,6 +23,10 @@ defmodule HelloSockets.Pipeline.Producer do
     GenStage.cast(__MODULE__, {:notify_timed, item, Timing.unix_ms_now()})
   end
 
+  def push_timed(n, user_id) do
+    push_timed(%{data: %{n: n}, user_id: user_id})
+  end
+
   def handle_cast({:notify, item}, state) do
     {:noreply, [%{item: item}], state}
   end
